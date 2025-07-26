@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Empleados</title>
+    <link rel="stylesheet" href="../css/empleados.css">
+    <link rel="stylesheet" href="../css/agregar_empleado.css">
+    <link rel="stylesheet" href="../css/editar_empleado.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Lista de Empleados</h1>
+        <button id="btn-agregar" class="btn" style="margin-bottom: 20px;">Agregar Empleado</button>
+        <button id="btn-editar" class="btn" style="margin-bottom: 20px;">Editar Empleados</button>
+        <table id="tabla-empleados">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Fecha Contrato</th>
+                    <th>Puesto</th>
+                    <th>Salario</th>
+                    <th>Comisión</th>
+                    <th>Manager</th>
+                    <th>Departamento</th>
+                    <th>Bonus</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí se insertarán las filas dinámicamente con JS -->
+            </tbody>
+        </table>
+        <a href="index.html" class="btn" style="margin-top:24px;display:inline-block;">Volver al inicio</a>
+        <div id="modal-agregar-empleado" class="modal" style="display:none;"></div>
+        <div id="modal-editar-empleado" class="modal" style="display:none;"></div>
+        <script src="../js/empleados.js"></script>
+        <script src="../js/agregar_empleado.js"></script>
+        <script src="../js/editar_empleado.js"></script>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Departamentos</title>
+    <link rel="stylesheet" href="../css/departamentos.css">
+    <link rel="stylesheet" href="../css/agregar_departamento.css">
+    <link rel="stylesheet" href="../css/editar_departamento.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Departamentos</h1>
+        <button id="btn-agregar-departamento" class="btn" style="margin-bottom: 20px;">Agregar Departamento</button>
+        <button id="btn-editar-departamento" class="btn" style="margin-bottom: 20px;">Editar Departamentos</button>
+        <table id="tabla-departamentos">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Manager ID</th>
+                    <th>Ubicación (Location ID)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí se insertarán las filas dinámicamente con JS -->
+            </tbody>
+        </table>
+        <a href="index.html" class="btn" style="margin-top:24px;display:inline-block;">Volver al inicio</a>
+        <div id="modal-agregar-departamento" class="modal" style="display:none;"></div>
+        <div id="modal-editar-departamento" class="modal" style="display:none;"></div>
+        <script src="../js/departamentos.js"></script>
+        <script src="../js/agregar_departamento.js"></script>
+        <script src="../js/editar_departamento.js"></script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<div class="modal-content">
+    <span class="close-modal" id="cerrar-modal-agregar">&times;</span>
+    <h2>Agregar Departamento</h2>
+    <form id="form-agregar-departamento">
+        <label>ID: <input type="number" name="department_id" required></label><br>
+        <label>Nombre: <input type="text" name="department_name" required></label><br>
+        <label>Manager ID: <input type="number" name="manager_id"></label><br>
+        <label>Ubicación (Location ID):
+            <select name="location_id" id="location_id" required>
+                <option value="">Seleccione una ubicación</option>
+            </select>
+        </label><br>
+        <button type="submit" class="btn">Guardar</button>
+    </form>
+</div>

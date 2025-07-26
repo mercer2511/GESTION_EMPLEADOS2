@@ -1,0 +1,19 @@
+<div class="modal-content">
+    <span class="close-modal" id="cerrar-modal-editar">&times;</span>
+    <h2>Editar Departamento</h2>
+    <form id="form-editar-departamento">
+        <label>ID:
+            <select id="department_id_editar" name="department_id" required>
+                <option value="">Seleccione un departamento</option>
+            </select>
+        </label><br>
+        <label>Nombre: <input type="text" name="department_name" required></label><br>
+        <label>Manager ID: <input type="number" name="manager_id"></label><br>
+        <label>Ubicación (Location ID):
+            <select name="location_id" id="location_id_editar" required>
+                <option value="">Seleccione una ubicación</option>
+            </select>
+        </label><br>
+        <button type="submit" class="btn">Guardar Cambios</button>
+    </form>
+</div>

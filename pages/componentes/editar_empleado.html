@@ -1,0 +1,31 @@
+<div class="modal-content">
+    <span class="close-modal" id="cerrar-modal-editar">&times;</span>
+    <h2>Editar Empleado</h2>
+    <form id="form-editar-empleado">
+        <label>ID:
+            <select id="employee_id_editar" name="employee_id" required>
+                <option value="">Seleccione un empleado</option>
+            </select>
+        </label><br>
+        <label>Nombre: <input type="text" name="first_name" required></label><br>
+        <label>Apellido: <input type="text" name="last_name" required></label><br>
+        <label>Email: <input type="email" name="email" required></label><br>
+        <label>Teléfono: <input type="text" name="phone_number"></label><br>
+        <label>Fecha Contrato: <input type="date" name="hire_date" required></label><br>
+        <label>Puesto:
+            <select name="job_id" id="job_id_editar" required>
+                <option value="">Seleccione un puesto</option>
+            </select>
+        </label><br>
+        <label>Salario: <input type="number" name="salary"></label><br>
+        <label>Comisión: <input type="number" name="commission_pct" step="0.01"></label><br>
+        <label>Manager ID: <input type="number" name="manager_id"></label><br>
+        <label>Departamento ID:
+            <select name="department_id" id="department_id_editar" required>
+                <option value="">Seleccione un departamento</option>
+            </select>
+        </label><br>
+        <label>Bonus: <input type="text" name="bonus"></label><br>
+        <button type="submit" class="btn">Guardar Cambios</button>
+    </form>
+</div>
