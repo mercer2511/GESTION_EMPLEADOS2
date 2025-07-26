@@ -2,20 +2,20 @@
 // Este código solo previene el comportamiento por defecto y navega usando JS
 
 document.addEventListener('DOMContentLoaded', () => {
-    const empleadosBtn = document.querySelector('a[href="empleados.html"]');
-    const departamentosBtn = document.querySelector('a[href="departamentos.html"]');
+    const empleadosBtn = document.querySelector('a[href="pages/empleados.html"]');
+    const departamentosBtn = document.querySelector('a[href="pages/departamentos.html"]');
 
     if (empleadosBtn) {
         empleadosBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.href = 'empleados.html';
+            window.location.href = 'pages/empleados.html';
         });
     }
 
     if (departamentosBtn) {
         departamentosBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.href = 'departamentos.html';
+            window.location.href = 'pages/departamentos.html';
         });
     }
 });
