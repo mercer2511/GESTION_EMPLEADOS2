@@ -3,9 +3,9 @@
     <h2>Editar Empleado</h2>
     <form id="form-editar-empleado">
         <label>ID:
-            <select id="employee_id_editar" name="employee_id" required>
-                <option value="">Seleccione un empleado</option>
-            </select>
+            <input type="text" id="employee_search" placeholder="Buscar empleado por ID, nombre o apellido"
+                autocomplete="off" required>
+            <ul id="employee_suggestions" class="autocomplete-list"></ul>
         </label><br>
         <label>Nombre: <input type="text" name="first_name" required></label><br>
         <label>Apellido: <input type="text" name="last_name" required></label><br>

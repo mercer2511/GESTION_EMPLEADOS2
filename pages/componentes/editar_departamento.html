@@ -3,9 +3,9 @@
     <h2>Editar Departamento</h2>
     <form id="form-editar-departamento">
         <label>ID:
-            <select id="department_id_editar" name="department_id" required>
-                <option value="">Seleccione un departamento</option>
-            </select>
+            <input type="text" id="department_search" placeholder="Buscar departamento por ID o nombre"
+                autocomplete="off" required>
+            <ul id="department_suggestions" class="autocomplete-list"></ul>
         </label><br>
         <label>Nombre: <input type="text" name="department_name" required></label><br>
         <label>Manager ID: <input type="number" name="manager_id"></label><br>

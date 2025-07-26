@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     modal.innerHTML = html;
                     modal.style.display = 'flex';
 
-                    // Cerrar modal
                     document.getElementById('cerrar-modal-editar').onclick = () => {
                         modal.style.display = 'none';
                         modal.innerHTML = '';
@@ -21,19 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             modal.innerHTML = '';
                         }
                     };
-
-                    // Llenar select de IDs de empleados
-                    fetch('https://g1314108f626eb5-undc.adb.sa-saopaulo-1.oraclecloudapps.com/ords/servicio_empleados/gestion_empleados/empleados/')
-                        .then(res => res.json())
-                        .then(data => {
-                            const select = document.getElementById('employee_id_editar');
-                            data.items.forEach(emp => {
-                                const option = document.createElement('option');
-                                option.value = emp.employee_id;
-                                option.textContent = `${emp.employee_id} - ${emp.first_name} ${emp.last_name}`;
-                                select.appendChild(option);
-                            });
-                        });
 
                     // Llenar trabajos
                     fetch('https://g1314108f626eb5-undc.adb.sa-saopaulo-1.oraclecloudapps.com/ords/servicio_empleados/gestion_empleados/trabajos/')
@@ -61,11 +47,41 @@ document.addEventListener('DOMContentLoaded', () => {
                             });
                         });
 
-                    // Al seleccionar un ID, cargar los datos del empleado
-                    modal.addEventListener('change', function handler(e) {
-                        if (e.target && e.target.id === 'employee_id_editar') {
-                            const id = e.target.value;
-                            if (!id) return;
+                    // Autocompletado de empleados
+                    let empleados = [];
+                    fetch('https://g1314108f626eb5-undc.adb.sa-saopaulo-1.oraclecloudapps.com/ords/servicio_empleados/gestion_empleados/empleados/')
+                        .then(res => res.json())
+                        .then(data => {
+                            empleados = data.items;
+                        });
+
+                    const searchInput = modal.querySelector('#employee_search');
+                    const suggestions = modal.querySelector('#employee_suggestions');
+
+                    searchInput.addEventListener('input', function () {
+                        const value = this.value.trim().toLowerCase();
+                        suggestions.innerHTML = '';
+                        if (value.length === 0) return;
+                        const filtered = empleados.filter(emp =>
+                            emp.employee_id.toString().includes(value) ||
+                            (emp.first_name && emp.first_name.toLowerCase().includes(value)) ||
+                            (emp.last_name && emp.last_name.toLowerCase().includes(value))
+                        );
+                        filtered.slice(0, 8).forEach(emp => {
+                            const li = document.createElement('li');
+                            li.textContent = `${emp.employee_id} - ${emp.first_name} ${emp.last_name}`;
+                            li.dataset.id = emp.employee_id;
+                            li.classList.add('autocomplete-item');
+                            suggestions.appendChild(li);
+                        });
+                    });
+
+                    suggestions.addEventListener('click', function (e) {
+                        if (e.target && e.target.matches('li.autocomplete-item')) {
+                            const id = e.target.dataset.id;
+                            searchInput.value = e.target.textContent;
+                            suggestions.innerHTML = '';
+                            // Cargar datos del empleado seleccionado
                             fetch(`https://g1314108f626eb5-undc.adb.sa-saopaulo-1.oraclecloudapps.com/ords/servicio_empleados/gestion_empleados/empleados/${id}`)
                                 .then(res => res.json())
                                 .then(data => {
@@ -82,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     form.manager_id.value = emp.manager_id ?? '';
                                     form.department_id.value = emp.department_id || '';
                                     form.bonus.value = emp.bonus ?? '';
+                                    form.dataset.selectedId = emp.employee_id;
                                 });
                         }
                     });
@@ -91,8 +108,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (ev.target && ev.target.id === 'form-editar-empleado') {
                             ev.preventDefault();
                             const form = ev.target;
-                            const employeeId = document.getElementById('employee_id_editar').value;
-
+                            const employeeId = form.dataset.selectedId;
+                            if (!employeeId) {
+                                alert('Seleccione un empleado válido.');
+                                return;
+                            }
                             const data = {
                                 p_first_name: form.first_name.value,
                                 p_last_name: form.last_name.value,

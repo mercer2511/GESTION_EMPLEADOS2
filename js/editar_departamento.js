@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     modal.innerHTML = html;
                     modal.style.display = 'flex';
 
-                    // Cerrar modal
                     document.getElementById('cerrar-modal-editar').onclick = () => {
                         modal.style.display = 'none';
                         modal.innerHTML = '';
@@ -21,19 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             modal.innerHTML = '';
                         }
                     };
-
-                    // Llenar select de departamentos
-                    fetch('https://g1314108f626eb5-undc.adb.sa-saopaulo-1.oraclecloudapps.com/ords/servicio_empleados/gestion_empleados/departamentos/')
-                        .then(res => res.json())
-                        .then(data => {
-                            const select = document.getElementById('department_id_editar');
-                            data.items.forEach(dep => {
-                                const option = document.createElement('option');
-                                option.value = dep.department_id;
-                                option.textContent = `${dep.department_id} - ${dep.department_name}`;
-                                select.appendChild(option);
-                            });
-                        });
 
                     // Llenar select de ubicaciones
                     fetch('https://g1314108f626eb5-undc.adb.sa-saopaulo-1.oraclecloudapps.com/ords/servicio_empleados/gestion_empleados/ubicaciones/')
@@ -48,11 +34,40 @@ document.addEventListener('DOMContentLoaded', () => {
                             });
                         });
 
-                    // Al seleccionar un departamento, cargar sus datos
-                    modal.addEventListener('change', function handler(e) {
-                        if (e.target && e.target.id === 'department_id_editar') {
-                            const id = e.target.value;
-                            if (!id) return;
+                    // Autocompletado de departamentos
+                    let departamentos = [];
+                    fetch('https://g1314108f626eb5-undc.adb.sa-saopaulo-1.oraclecloudapps.com/ords/servicio_empleados/gestion_empleados/departamentos/')
+                        .then(res => res.json())
+                        .then(data => {
+                            departamentos = data.items;
+                        });
+
+                    const searchInput = modal.querySelector('#department_search');
+                    const suggestions = modal.querySelector('#department_suggestions');
+
+                    searchInput.addEventListener('input', function () {
+                        const value = this.value.trim().toLowerCase();
+                        suggestions.innerHTML = '';
+                        if (value.length === 0) return;
+                        const filtered = departamentos.filter(dep =>
+                            dep.department_id.toString().includes(value) ||
+                            (dep.department_name && dep.department_name.toLowerCase().includes(value))
+                        );
+                        filtered.slice(0, 8).forEach(dep => {
+                            const li = document.createElement('li');
+                            li.textContent = `${dep.department_id} - ${dep.department_name}`;
+                            li.dataset.id = dep.department_id;
+                            li.classList.add('autocomplete-item');
+                            suggestions.appendChild(li);
+                        });
+                    });
+
+                    suggestions.addEventListener('click', function (e) {
+                        if (e.target && e.target.matches('li.autocomplete-item')) {
+                            const id = e.target.dataset.id;
+                            searchInput.value = e.target.textContent;
+                            suggestions.innerHTML = '';
+                            // Cargar datos del departamento seleccionado
                             fetch(`https://g1314108f626eb5-undc.adb.sa-saopaulo-1.oraclecloudapps.com/ords/servicio_empleados/gestion_empleados/departamentos/${id}`)
                                 .then(res => res.json())
                                 .then(data => {
@@ -61,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     form.department_name.value = dep.department_name || '';
                                     form.manager_id.value = dep.manager_id ?? '';
                                     form.location_id.value = dep.location_id ?? '';
+                                    form.dataset.selectedId = dep.department_id;
                                 });
                         }
                     });
@@ -70,8 +86,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (ev.target && ev.target.id === 'form-editar-departamento') {
                             ev.preventDefault();
                             const form = ev.target;
-                            const departmentId = document.getElementById('department_id_editar').value;
-
+                            const departmentId = form.dataset.selectedId;
+                            if (!departmentId) {
+                                alert('Seleccione un departamento válido.');
+                                return;
+                            }
                             const data = {
                                 p_department_name: form.department_name.value,
                                 p_manager_id: form.manager_id.value ? Number(form.manager_id.value) : null,
